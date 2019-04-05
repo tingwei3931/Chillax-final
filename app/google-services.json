@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "368909746894",
+    "firebase_url": "https://chillax-e783b.firebaseio.com",
+    "project_id": "chillax-e783b",
+    "storage_bucket": "chillax-e783b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:368909746894:android:106bae997949b740",
+        "android_client_info": {
+          "package_name": "com.example.chillaxown"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "368909746894-sf414pom5ciqerbdcbdj9rd68ibntjnb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBu3_s1y_U6ezFCGY2TPiwcqUr3V_0QiCU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
