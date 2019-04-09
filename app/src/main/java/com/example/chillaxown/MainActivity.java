@@ -25,6 +25,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -43,6 +44,7 @@ public class MainActivity extends AppCompatActivity
         TaskAdapter.RecycleViewClickListener
 {
 
+
     FirebaseUser user;
     ArrayList<TaskDetails> tasks = new ArrayList<TaskDetails>();
     public static TaskAdapter adapter;
@@ -59,6 +61,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
 
         tabs = (TabLayout) findViewById(R.id.topHeader);
         tabs.addOnTabSelectedListener(this);
@@ -87,7 +90,9 @@ public class MainActivity extends AppCompatActivity
             // authenticate with your backend server, if you have one. Use
             // FirebaseUser.getIdToken() instead.
             String uid = user.getUid();
+
         }
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -181,8 +186,14 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_camera) {
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
+            Intent audioActivity = new Intent(getApplicationContext(), AudioActivity.class);
+            startActivity(audioActivity);
+            return false;
 
         } else if (id == R.id.nav_slideshow) {
+            Intent videoActivity = new Intent(getApplicationContext(), VideoActivity.class);
+            startActivity(videoActivity);
+            return false;
 
         } else if (id == R.id.nav_manage) {
 

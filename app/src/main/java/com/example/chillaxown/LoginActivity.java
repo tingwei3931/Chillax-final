@@ -70,6 +70,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    Button forgotPass;
 
 
     private FirebaseAuth mAuth;
@@ -94,6 +95,17 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     return true;
                 }
                 return false;
+            }
+        });
+        forgotPass = findViewById(R.id.forget_password_button);
+
+        forgotPass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.i("hello","Forgot password");
+                Intent forgotActivity = new Intent(getApplicationContext(), ForgotPassword.class);
+                startActivity(forgotActivity);
+                finish();
             }
         });
 
