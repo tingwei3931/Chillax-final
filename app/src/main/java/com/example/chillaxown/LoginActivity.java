@@ -5,6 +5,8 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.media.Image;
+import android.opengl.Visibility;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -29,6 +31,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -71,6 +74,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mProgressView;
     private View mLoginFormView;
     Button forgotPass;
+    ImageView logo;
 
 
     private FirebaseAuth mAuth;
@@ -84,6 +88,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
+        logo = (ImageView) findViewById(R.id.imageView2);
         populateAutoComplete();
 
         mPasswordView = (EditText) findViewById(R.id.password);
@@ -363,6 +368,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         @Override
         protected Boolean doInBackground(Void... params) {
+            logo.setVisibility(View.INVISIBLE);
             // TODO: attempt authentication against a network service.
             mAuth.signInWithEmailAndPassword(this.mEmail, this.mPassword)
                     .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
@@ -374,10 +380,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                 FirebaseUser user = mAuth.getCurrentUser();
                                 updateUI(user);
                             } else {
+                                logo.setVisibility(View.VISIBLE);
                                 // If sign in fails, display a message to the user.
                                 Log.w("LOGIN", "signInWithEmail:failure", task.getException());
                                 Snackbar.make(getWindow().getDecorView().getRootView(), "Invalid Username or Password.", Snackbar.LENGTH_LONG)
                                         .show();
+
 
                             }
                         }

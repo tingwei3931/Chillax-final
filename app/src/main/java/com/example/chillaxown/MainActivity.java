@@ -43,10 +43,7 @@ public class MainActivity extends AppCompatActivity
         DeleteAsyncTask.AsyncResponse,
         DeleteAllAsyncTask.AsyncResponse,
         TabLayout.OnTabSelectedListener,
-        TaskAdapter.RecycleViewClickListener
-{
-
-
+        TaskAdapter.RecycleViewClickListener {
     FirebaseUser user;
     ArrayList<TaskDetails> tasks = new ArrayList<TaskDetails>();
     public static TaskAdapter adapter;
@@ -57,7 +54,7 @@ public class MainActivity extends AppCompatActivity
     private String[] categoryList = {"All", "In progress", "Completed"};
     private static final int VIEW_ACT = 3;
     private static final int TIMER_ACT = 4;
-    final TaskDetailsSQL sq=new TaskDetailsSQL(this);
+    final TaskDetailsSQL sq = new TaskDetailsSQL(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +62,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        getSupportActionBar().setTitle("Chillax App");  // provide compatibility to all the versions
 
         tabs = (TabLayout) findViewById(R.id.topHeader);
         tabs.addOnTabSelectedListener(this);

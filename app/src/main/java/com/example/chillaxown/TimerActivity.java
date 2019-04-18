@@ -8,6 +8,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -46,6 +47,8 @@ public class TimerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timer);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Pomodoro Timer");
 
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
@@ -62,9 +65,9 @@ public class TimerActivity extends AppCompatActivity {
         mStopBtn             = (FloatingActionButton) findViewById(R.id.fab_stop);
 
         mCountDownTextView   = (TextView)  findViewById(R.id.textView_countdown);
-
+        mTaskTextView        = (TextView)  findViewById(R.id.textView);
         mProgressBar = (MaterialProgressBar) findViewById(R.id.progress_countdown);
-        //mTaskTextView.setText("Ongoing Task: " + currentTask.getTaskName());
+        mTaskTextView.setText("Ongoing Task: " + currentTask.getTaskName());
 
         mProgressBar.setMax((int)mTimeLeftInMillis);
 
@@ -162,9 +165,13 @@ public class TimerActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed(){
-        //super.onBackPressed();
-        finish();
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     /**

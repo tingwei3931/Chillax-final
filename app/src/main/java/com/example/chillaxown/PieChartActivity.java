@@ -1,5 +1,6 @@
 package com.example.chillaxown;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -8,8 +9,10 @@ import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.allyants.notifyme.NotifyMe;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.Entry;
@@ -20,6 +23,7 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 
 import me.itangqi.waveloadingview.WaveLoadingView;
@@ -37,10 +41,16 @@ public class PieChartActivity extends AppCompatActivity {
     long totalTimeSpent, stressTime, relaxTime;
     WaveLoadingView wa,wa1;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_piechart);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Task Visualisation");
+
         Log.d(TAG, "onCreate: starting to create chart");
         float sp=0,sp1=0,sp2=0,sp3=0,sp4=0,sp5=0,sp6=0;
 
@@ -153,6 +163,16 @@ public class PieChartActivity extends AppCompatActivity {
         calculateWavePercentage();
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     private void calculateWavePercentage() {
         TaskDetailsSQL sql = new TaskDetailsSQL(this);
         /**
@@ -188,7 +208,7 @@ public class PieChartActivity extends AppCompatActivity {
         Log.i("PERCENT_STRESS", String.valueOf(stressTime));
         Log.i("PERCENT_TIMESPENT", String.valueOf(totalTimeSpent));
 
-        int relaxPercentage = (totalTimeSpent == 0) ?  50 : (int)(relaxTime * 100 / totalTimeSpent);
+        int relaxPercentage = (totalTimeSpent == 0) ?  50 : Math.round(relaxTime * 100 / totalTimeSpent);
         int stressPercentage = (totalTimeSpent == 0) ? 50 : 100 - relaxPercentage;
 
         Log.i("RELAX_PERCENT", String.valueOf(relaxPercentage));
@@ -204,6 +224,40 @@ public class PieChartActivity extends AppCompatActivity {
         wa.setCenterTitle(String.format("%d%%", (int)relaxPercentage));
         //wa.setTopTitleSize(10.0f);
         wa.setTopTitle(String.format("Stress"));
+
+        if (stressPercentage >= 80) {
+            sendPushNotification("Uh Oh! Seems like you had been relaxing too much lately. Hurry and get some work done!");
+
+        }
+
+        if (relaxPercentage >= 80) {
+            sendPushNotification("Watch out! You are stressing out lately. Take a deep breath and relax.");
+        }
+    }
+
+    private void sendPushNotification(String message) {
+        Intent intent = new Intent(getApplicationContext(), TimerActivity.class);
+        intent.putExtra("test", "I am a String");
+        Calendar now = Calendar.getInstance();
+
+        NotifyMe notifyMe = new NotifyMe.Builder(getApplicationContext())
+                .title("Be careful!")
+                .content(message)
+                .color(255, 0, 0, 255)
+                .led_color(255, 255, 255, 255)
+                .time(now)
+                .addAction(intent, "Snooze", false)
+                .key("test")
+                .addAction(new Intent(), "Dismiss", true, false)
+                .addAction(intent, "Done")
+                .large_icon(R.mipmap.ic_launcher_round)
+                .build();
+
+        //Snackbar.make(getWindow().getDecorView().getRootView(), "Remainder has been saved!", Snackbar.LENGTH_LONG)
+        //        .show();
+    }
+
+    private void sendWarningNotification() {
 
     }
 }

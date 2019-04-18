@@ -13,6 +13,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -67,6 +68,7 @@ public class ViewActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_view);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("View Task Details");  // provide compatibility to all the versions
         // Button btnNotify = findViewById(R.id.editBtn);
         //get intent from DetailFragment
         Intent intent = getIntent();
@@ -163,6 +165,16 @@ public class ViewActivity extends AppCompatActivity implements
         });
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     /**
      * Displays Facebook Dialog.
      */
@@ -183,6 +195,8 @@ public class ViewActivity extends AppCompatActivity implements
             Log.d("Activity", "failed to get share photo permission");
         }
     }
+
+
 
     /**
      * Moves the task to completed tab.
