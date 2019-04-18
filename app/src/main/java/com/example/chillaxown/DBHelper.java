@@ -18,7 +18,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "taskDetails.db";
 
     // Constructor for DBHelper
-    public DBHelper(Context context ) {
+    public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -36,12 +36,20 @@ public class DBHelper extends SQLiteOpenHelper {
                 + TaskDetails.KEY_DATE + " TEXT, "
                 + TaskDetails.KEY_TIME + " INTEGER, "
                 + TaskDetails.KEY_ISCOMPLETED + " TEXT)";
+
+
+        String CREATE_TABLE_DURATION = "CREATE TABLE " + Duration.TABLE + "("
+                + Duration.KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT ,"
+                + Duration.KEY_CATEGORY + " TEXT, "
+                + Duration.KEY_TIME + " INTEGER)";
         db.execSQL(CREATE_TABLE_CLASSDETAILS);
+        db.execSQL(CREATE_TABLE_DURATION);
     } //end of onCreate
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Drop older table if existed, all data will be gone!!!
+        db.execSQL("DROP TABLE IF EXISTS " + TaskDetails.TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + TaskDetails.TABLE);
         // Create tables again
         onCreate(db);

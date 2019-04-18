@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.chillaxown">
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -12,6 +13,8 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -19,18 +22,23 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".ForgotPassword"></activity>
+        android:theme="@style/AppTheme"
+        tools:replace="android:appComponentFactory"
+        android:appComponentFactory="whateverString">
+        <activity android:name=".TimerActivity"></activity>
+        <activity android:name=".displayfamily" />
+        <activity android:name=".ForgotPassword" />
 
-        <receiver android:name="com.allyants.notifyme.NotificationPublisher" />
-        <receiver android:name="com.allyants.notifyme.BootNotifyMe" />
+        <receiver android:name="com.allyants.notifyme.NotificationPublisher" android:exported="true" android:enabled="true" />
+        <receiver android:name="com.allyants.notifyme.BootNotifyMe" android:exported="true" android:enabled="true"/>
 
         <activity android:name=".ViewActivity" />
         <activity android:name=".EditActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".AddActivity" />
         <activity android:name=".AudioActivity" />
-        <activity android:name=".VideoActivity"/>
+        <activity android:name=".VideoActivity" />
+        <activity android:name=".PieChartActivity"/>
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
@@ -45,7 +53,16 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".playback.MusicService" />
+        <provider
+            android:name="com.facebook.FacebookContentProvider"
+            android:authorities="com.facebook.app.FacebookContentProvider702917856764690"
+            android:exported="true" />
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+
+        <service android:name=".playback.MusicService" android:exported="true" android:enabled="true" />
     </application>
 
 </manifest>

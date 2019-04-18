@@ -16,6 +16,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,11 +29,13 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder>{
+public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> implements Filterable {
 
     ArrayList<TaskDetails> tasks;
+    ArrayList<TaskDetails> filteredTasks;
     private static RecycleViewClickListener itemListener;
     private Context context;
+    ValueFilter valueFilter;
 
     public TaskAdapter(ArrayList<TaskDetails> tasks) {
         this.tasks = tasks;
@@ -41,8 +45,63 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         this.tasks = tasks;
         this.context = context;
         this.itemListener = itemListener;
+        this.filteredTasks = tasks;
     }
 
+    @Override
+    public Filter getFilter() {
+        if (valueFilter == null) {
+            valueFilter = new ValueFilter();
+        }
+        return valueFilter;
+    }
+
+    /**
+     * Class that implements Filterable to filter ActivityDetails
+     */
+    private class ValueFilter extends Filter {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            FilterResults results = new FilterResults();
+            Log.i("filter",constraint+"");
+            if (constraint != null && constraint.length() > 0) {
+                ArrayList<TaskDetails> filterList = new ArrayList<TaskDetails>();
+                for (int i = 0; i < filteredTasks.size(); i++) {
+                    //filter the list based on the category, name and reporterName
+                    if ( (filteredTasks.get(i).getTaskCategory().toUpperCase()
+                            .contains(constraint.toString().trim().toUpperCase())) ||
+                            (filteredTasks.get(i).getTaskName().toUpperCase()
+                                    .contains(constraint.toString().trim().toUpperCase())) ||
+                            (filteredTasks.get(i).getTaskDate().toUpperCase()
+                                    .contains(constraint.toString().trim().toUpperCase())) ||
+                            (filteredTasks.get(i).getIsComelpted().toUpperCase()
+                                    .contains(constraint.toString().trim().toUpperCase()))
+                    ) {
+                        filterList.add(filteredTasks.get(i));
+                    }
+                }
+                results.count = filterList.size();
+                results.values = filterList;
+            } else {
+                results.count = filteredTasks.size();
+                results.values = filteredTasks;
+            }
+            return results;
+        } //end of performFiltering
+
+        /**
+         * Publishes the new ArrayList filtered and set it back to the
+         * CustomListAdapter
+         * @param constraint
+         * @param results
+         */
+        @Override
+        protected void publishResults(CharSequence constraint,
+                                      FilterResults results) {
+            tasks = (ArrayList<TaskDetails>) results.values;
+            notifyDataSetChanged();
+        }  //end of publishResults
+    } //end of innerClass
 
     public interface RecycleViewClickListener {
          void recycleViewListClicked(View v, int position);
@@ -97,6 +156,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         return this.tasks.get(position);
     }
 
+    /**
     public void filter(String category) {
         if (!category.equals("")) {
             ArrayList<TaskDetails> filteredTasks = new ArrayList<TaskDetails>();
@@ -110,6 +170,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             this.tasks.addAll(filteredTasks);
         }
     }
+     **/
 
     public static class TaskViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener, View.OnCreateContextMenuListener, View.OnClickListener{
         CardView cv;
@@ -136,6 +197,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
             contextMenu.add(0, view.getId(), getAdapterPosition(), "Edit");
             contextMenu.add(0, view.getId(), getAdapterPosition(), "Delete");
+            contextMenu.add(0, view.getId(), getAdapterPosition(), "Start Timer");
         }
 
         @Override

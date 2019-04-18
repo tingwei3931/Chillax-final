@@ -185,6 +185,46 @@
                 android:paddingTop="0dp"
                 android:text="@string/set_reminder"
                 android:textColor="@android:color/white" />
+
+            <Button
+                android:id="@+id/completed"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="@color/design_default_color_primary"
+                android:paddingTop="0dp"
+                android:text="Mark as Completed"
+                android:textColor="@android:color/white" />
+
+            <Button
+                android:id="@+id/family"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="@color/design_default_color_primary"
+                android:paddingTop="0dp"
+                android:text="Share to family"
+                android:textColor="@android:color/white" />
+
+            <Button
+                android:id="@+id/facebook"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="@color/design_default_color_primary"
+                android:paddingTop="0dp"
+                android:text="Share to Facebook"
+                android:textColor="@android:color/white" />
+
+
+
+
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>

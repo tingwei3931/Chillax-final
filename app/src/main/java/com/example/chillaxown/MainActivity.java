@@ -29,6 +29,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity
         InsertAsyncTask.AsyncResponse,
         GetAllAsyncTask.AsyncResponse,
         DeleteAsyncTask.AsyncResponse,
+        DeleteAllAsyncTask.AsyncResponse,
         TabLayout.OnTabSelectedListener,
         TaskAdapter.RecycleViewClickListener
 {
@@ -52,9 +54,11 @@ public class MainActivity extends AppCompatActivity
     private static final int ADD_ACT = 1;
     private static final int EDIT_ACT = 2;
     private static final String TAG = "TAG";
-    private String[] categoryList = {"In progress", "Completed"};
+    private String[] categoryList = {"All", "In progress", "Completed"};
     private static final int VIEW_ACT = 3;
-  final TaskDetailsSQL sq=new TaskDetailsSQL(this);
+    private static final int TIMER_ACT = 4;
+    final TaskDetailsSQL sq=new TaskDetailsSQL(this);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,7 +85,7 @@ public class MainActivity extends AppCompatActivity
 
             String displayName = (name == null) ? email : name;
             Snackbar.make(getWindow().getDecorView().getRootView(), "Sign in successfully! Welcome " +
-                    displayName, Snackbar.LENGTH_LONG)
+                    displayName + "!", Snackbar.LENGTH_LONG)
                     .show();
             // Check if user's email is verified
             // boolean emailVerified = user.isEmailVerified();
@@ -140,21 +144,29 @@ public class MainActivity extends AppCompatActivity
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-
+                adapter.getFilter().filter(query.trim());
                 return false;
             }
 
-
-
             @Override
-            public boolean onQueryTextChange(String newText) {
+            public boolean onQueryTextChange(String query) {
               //  getAllAsync1.getlist(newText);
-                getAllAsync1.getlist( newText);
+                //getAllAsync1.getlist( newText);
              //   sqlsearch.taskDetailsList.contains()
                // sq.getTaskDetailsByCategory(newText);
               //  sq.getTaskDetailsByCategory(newText);
               //  getlist(newText);
+                adapter.getFilter().filter(query.trim());
                 return false;
+            }
+        });
+
+        MenuItem deleteAllMenuItem = menu.findItem(R.id.delete);
+        deleteAllMenuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                deleteAll();
+                return true;
             }
         });
      //   getMenuInflater().inflate(R.menu.main, menu);
@@ -170,9 +182,9 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+        //if (id == R.id.action_settings) {
+        //    return true;
+        //}
 
         return super.onOptionsItemSelected(item);
     }
@@ -184,25 +196,38 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
+            Intent familiy = new Intent(getApplicationContext(), displayfamily.class);
+            Snackbar.make(getWindow().getDecorView().getRootView(), "Family!", Snackbar.LENGTH_LONG)
+                    .show();
+            startActivity(familiy);
+            //finish();
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
             Intent audioActivity = new Intent(getApplicationContext(), AudioActivity.class);
+            Snackbar.make(getWindow().getDecorView().getRootView(), "Music!", Snackbar.LENGTH_LONG)
+                    .show();
             startActivity(audioActivity);
             return false;
 
         } else if (id == R.id.nav_slideshow) {
             Intent videoActivity = new Intent(getApplicationContext(), VideoActivity.class);
+            Snackbar.make(getWindow().getDecorView().getRootView(), "Meditation!", Snackbar.LENGTH_LONG)
+                    .show();
             startActivity(videoActivity);
             return false;
 
         } else if (id == R.id.nav_manage) {
+            Intent pieChartActivity = new Intent(getApplicationContext(), PieChartActivity.class);
+            Snackbar.make(getWindow().getDecorView().getRootView(), "Visualisation!", Snackbar.LENGTH_LONG)
+                    .show();
+            startActivity(pieChartActivity);
 
         } else if (id == R.id.nav_logout) {
             FirebaseAuth.getInstance().signOut();
             Intent loginActivity = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivity(loginActivity);
             Snackbar.make(getWindow().getDecorView().getRootView(), "Successfully Signed Out!", Snackbar.LENGTH_LONG)
                     .show();
-            startActivity(loginActivity);
             finish();
 
         }
@@ -230,6 +255,7 @@ public class MainActivity extends AppCompatActivity
      */
     @Override
     public void processFinish(ArrayList<TaskDetails> result) {
+        Log.i("RESULT", result.toString());
         //clear the data in existing listView
         adapter.clear();
         //add the new data
@@ -250,17 +276,16 @@ public class MainActivity extends AppCompatActivity
         int position = tab.getPosition();
         switch(position) {
             case 0:
-                GetAllAsyncTask getAllAsync = new GetAllAsyncTask(getApplicationContext(), this);
-                getAllAsync.execute();
+                adapter.getFilter().filter("");
                 Log.i(TAG,"ALL LOCATION");
                 break;
             case 1:
-                adapter.filter(categoryList[position]);
+                adapter.getFilter().filter(categoryList[position]);
                 adapter.notifyDataSetChanged();
                 Log.i(TAG,"IN PROGRESS LOCATION");
                 break;
             case 2:
-                adapter.filter(categoryList[position]);
+                adapter.getFilter().filter(categoryList[position]);
                 adapter.notifyDataSetChanged();
                 Log.i(TAG,"COMPLETED LOCATION");
                 break;
@@ -286,12 +311,20 @@ public class MainActivity extends AppCompatActivity
                 //inform user activity is added
                 Snackbar.make(getWindow().getDecorView().getRootView(), "Task Added!", Snackbar.LENGTH_LONG)
                         .show();
+                tabs.getTabAt(0).select();
             }
         } else if(requestCode == EDIT_ACT) {
             //if user clicked yes
             if(resultCode == Activity.RESULT_OK) {
-                Snackbar.make(getWindow().getDecorView().getRootView(), "Task successfully updated!", Snackbar.LENGTH_LONG)
+                Snackbar.make(getWindow().getDecorView().getRootView(), "Task updated!", Snackbar.LENGTH_LONG)
                         .show();
+                tabs.getTabAt(0).select();
+            }
+        } else if(requestCode == VIEW_ACT) {
+            if(resultCode == Activity.RESULT_OK) {
+                Snackbar.make(getWindow().getDecorView().getRootView(), "Task moved to completed!", Snackbar.LENGTH_LONG)
+                        .show();
+                tabs.getTabAt(0).select();
             }
         }
     } //end onActivityResult
@@ -329,8 +362,34 @@ public class MainActivity extends AppCompatActivity
             Log.i("OBJECT", task.toString());
             Log.i("MAIN", "Edit pressed!");
             goToEditActivity(task);
+        } else if (item.getTitle().equals("Start Timer")) {
+            int itemPos = item.getOrder();
+            TaskDetails task = adapter.getItem(itemPos);
+            goToTimerActivity(task);
         }
         return super.onContextItemSelected(item);
+    }
+
+    private void deleteAll() {
+        AlertDialog.Builder cfmBuilder = new AlertDialog.Builder(this);
+        StringBuilder confirmationText =  new StringBuilder();
+        confirmationText.append("Are you sure to delete all tasks? ");
+        cfmBuilder.setMessage(confirmationText)
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        DeleteAllAsyncTask deleteAsync = new DeleteAllAsyncTask(MainActivity.this, MainActivity.this);
+                        deleteAsync.execute();
+                        Log.i("DELETE", "All Task deleted!");
+                    }
+                })
+                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Log.i("DELETE", "Task not deleted");
+                    }
+                });
+        cfmBuilder.show();
     }
 
     private void showConfirmationDialog(TaskDetails task) {
@@ -366,6 +425,13 @@ public class MainActivity extends AppCompatActivity
         intent.putExtra("taskObj", task);
         startActivityForResult(intent, EDIT_ACT);
     } //end of goToEditActivity
+
+    private void goToTimerActivity(TaskDetails task) {
+        Intent intent = new Intent(this, TimerActivity.class);
+        intent.putExtra("taskObj", task);
+        startActivityForResult(intent, TIMER_ACT);
+
+    }
 
     @Override
     public void recycleViewListClicked(View v, int position) {
