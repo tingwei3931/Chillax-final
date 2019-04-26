@@ -51,9 +51,9 @@ And rep
 ## Authors
 
 * **Lim Ting Wei** - *Initial work* - [tingwei3931](https://github.com/tingwei3931)
-* **Teoh Meng Cheng** - *Visualisation*
-* **Sriram Ramasamy** - *Database integration*
-* **Ong Woan Jing** - *UI Design*
+* **Teoh Meng Cheng** - *Visualisation* [mengcheng96](https://github.com/mengcheng96)
+* **Sriram Ramasamy** - *Database integration* [sriram97](https://github.com/Sriram97)
+* **Ong Woan Jing** - *UI Design* [ongwoanjing96](https://github.com/ONGWOANJING96)
 
 ## Acknowledgments
 
