@@ -20,6 +20,7 @@ import com.google.firebase.database.Query;
 public class ChatActivity extends AppCompatActivity {
 
     private FirebaseListAdapter<ChatMessage> adapter;
+    ListView listOfMessages;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +52,7 @@ public class ChatActivity extends AppCompatActivity {
 
                 // Clear the input
                 input.setText("");
+                scrollMyListViewToBottom();
             }
         });
         displayChatMessages();
@@ -58,7 +60,7 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void displayChatMessages() {
-        ListView listOfMessages = (ListView)findViewById(R.id.list_of_messages);
+        listOfMessages = (ListView)findViewById(R.id.list_of_messages);
 
         Query q = FirebaseDatabase.getInstance().getReference().child("chat");
 
@@ -76,6 +78,8 @@ public class ChatActivity extends AppCompatActivity {
 
                 if (model.getMessageUser().equals(FirebaseAuth.getInstance().getCurrentUser().getDisplayName()))  {
                     messageText.setGravity(Gravity.RIGHT);
+                } else {
+                    messageText.setGravity(Gravity.LEFT);
                 }
                 // Set their text
                 messageText.setText(model.getMessageText());
@@ -85,9 +89,21 @@ public class ChatActivity extends AppCompatActivity {
                 messageTime.setText(DateFormat.format("dd-MM-yyyy (HH:mm:ss)",
                         model.getMessageTime()));
             }
+
+
         };
 
         listOfMessages.setAdapter(adapter);
+    }
+
+    private void scrollMyListViewToBottom() {
+        listOfMessages.post(new Runnable() {
+            @Override
+            public void run() {
+                // Select the last row so it will scroll into view...
+                listOfMessages.setSelection(listOfMessages.getCount() - 1);
+            }
+        });
     }
 
     @Override
