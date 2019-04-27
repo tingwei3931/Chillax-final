@@ -18,19 +18,26 @@
 
     <application
         android:allowBackup="true"
+        android:appComponentFactory="whateverString"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:replace="android:appComponentFactory"
-        android:appComponentFactory="whateverString">
-        <activity android:name=".TimerActivity"></activity>
+        tools:replace="android:appComponentFactory">
+        <activity android:name=".ChatActivity"></activity>
+        <activity android:name=".TimerActivity" />
         <activity android:name=".displayfamily" />
         <activity android:name=".ForgotPassword" />
 
-        <receiver android:name="com.allyants.notifyme.NotificationPublisher" android:exported="true" android:enabled="true" />
-        <receiver android:name="com.allyants.notifyme.BootNotifyMe" android:exported="true" android:enabled="true"/>
+        <receiver
+            android:name="com.allyants.notifyme.NotificationPublisher"
+            android:enabled="true"
+            android:exported="true" />
+        <receiver
+            android:name="com.allyants.notifyme.BootNotifyMe"
+            android:enabled="true"
+            android:exported="true" />
 
         <activity android:name=".ViewActivity" />
         <activity android:name=".EditActivity" />
@@ -38,7 +45,7 @@
         <activity android:name=".AddActivity" />
         <activity android:name=".AudioActivity" />
         <activity android:name=".VideoActivity" />
-        <activity android:name=".PieChartActivity"/>
+        <activity android:name=".PieChartActivity" />
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
@@ -62,7 +69,10 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-        <service android:name=".playback.MusicService" android:exported="true" android:enabled="true" />
+        <service
+            android:name=".playback.MusicService"
+            android:enabled="true"
+            android:exported="true" />
     </application>
 
 </manifest>

@@ -2,6 +2,7 @@ package com.example.chillaxown;
 
 
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -30,7 +31,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import java.util.ArrayList;
 import java.util.List;
 
-public class displayfamily extends AppCompatActivity {
+public class displayfamily extends AppCompatActivity implements PostAdapter.RecycleViewClickListener {
 
  /*   private RecyclerView rc;
     private DatabaseReference mdb;
@@ -47,7 +48,9 @@ public class displayfamily extends AppCompatActivity {
     PostAdapter postAdapter ;
     FirebaseDatabase firebaseDatabase;
     FirebaseStorage mStorage;
-    DatabaseReference databaseReference ;
+    DatabaseReference databaseReference;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +78,9 @@ public class displayfamily extends AppCompatActivity {
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("reader");
 
+        postList = new ArrayList<>();
+        postAdapter = new PostAdapter(getApplicationContext(),postList, this);
+        rc.setAdapter(postAdapter);
     }
     @Override
     protected void onStart()
@@ -85,17 +91,14 @@ public class displayfamily extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                postList = new ArrayList<>();
                 for (DataSnapshot postsnap: dataSnapshot.getChildren()) {
-
                     Post post = postsnap.getValue(Post.class);
                     post.setPostKey(postsnap.getKey());
                     postList.add(post) ;
 
                 }
 
-                postAdapter = new PostAdapter(getApplicationContext(),postList);
-                rc.setAdapter(postAdapter);
+                postAdapter.notifyDataSetChanged();
 
 
 
@@ -120,7 +123,11 @@ public class displayfamily extends AppCompatActivity {
     }
 
 
-
+    @Override
+    public void recycleViewListClicked(View v, int position) {
+        Intent intent = new Intent(this, ChatActivity.class);
+        startActivity(intent);
+    }
 }
 class BlogViewHolder extends  RecyclerView.ViewHolder{
     View mView;

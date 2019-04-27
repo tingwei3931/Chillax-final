@@ -228,7 +228,6 @@ public class MainActivity extends AppCompatActivity
             finish();
 
         }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

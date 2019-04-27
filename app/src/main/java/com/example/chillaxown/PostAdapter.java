@@ -1,6 +1,7 @@
 package com.example.chillaxown;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
@@ -24,11 +25,13 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
     Context mContext;
     List<Post> mData;
     OnItemClickListener mListener;
+    private static PostAdapter.RecycleViewClickListener itemListener;
 
 
-    public PostAdapter(Context mContext, List<Post> mData) {
+    public PostAdapter(Context mContext, List<Post> mData, PostAdapter.RecycleViewClickListener itemListener) {
         this.mContext = mContext;
         this.mData = mData;
+        this.itemListener = itemListener;
     }
 
 
@@ -65,6 +68,16 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
     }
 
     @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+    }
+
+    public interface RecycleViewClickListener {
+        void recycleViewListClicked(View v, int position);
+    }
+
+
+    @Override
     public int getItemCount() {
         return mData.size();
     }
@@ -91,23 +104,20 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
             tvTaskDate = itemView.findViewById(R.id.task_date);
             tvTaskTime = itemView.findViewById(R.id.task_time);
             tvTaskCategory = itemView.findViewById(R.id.task_category);
+            itemView.setOnClickListener(this);
 
 
         }
 
-
-
-
-
-
-
-
-
-
-
         @Override
         public void onClick(View view) {
+            if (itemListener != null) {
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    itemListener.recycleViewListClicked(view, this.getLayoutPosition());
+                }
 
+            }
 
         }
 
@@ -136,9 +146,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
     }
 */
     public interface OnItemClickListener {
-        void onItemClick(int position);
-        void onShowItemClick(int position);
-        void onDeleteItemClick(int position);
         void onItemLongClick(int position);
 
     }
