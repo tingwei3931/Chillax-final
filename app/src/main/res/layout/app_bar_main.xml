@@ -15,7 +15,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
+            android:background="@drawable/dark_purple"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
         <android.support.design.widget.TabLayout
@@ -23,9 +23,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_scrollFlags="scroll"
-            app:tabBackground="@color/design_default_color_primary_dark"
+            app:tabBackground="@drawable/mimi_brown"
             app:tabIndicatorColor="@color/colorPrimaryDark"
-            app:tabSelectedTextColor="@android:color/holo_blue_bright"
+            app:tabSelectedTextColor="@color/black"
             app:tabTextColor="@color/white">
 
             <android.support.design.widget.TabItem
@@ -57,7 +57,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        app:backgroundTint="@color/design_default_color_primary"
+        app:backgroundTint="@color/mdtp_dark_gray"
         app:srcCompat="@drawable/ic_add" />
 
 </android.support.design.widget.CoordinatorLayout>

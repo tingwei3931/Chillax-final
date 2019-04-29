@@ -2,6 +2,7 @@ package com.example.chillaxown;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.drawable.ColorDrawable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -50,6 +51,7 @@ public class PieChartActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Task Visualisation");
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.rgb(83,36,54)));
 
         Log.d(TAG, "onCreate: starting to create chart");
         float sp=0,sp1=0,sp2=0,sp3=0,sp4=0,sp5=0,sp6=0;
@@ -74,7 +76,7 @@ public class PieChartActivity extends AppCompatActivity {
         //pieChart.setCenterTextColor(Color.BLACK);
         pieChart.setHoleRadius(25f);
         pieChart.setTransparentCircleAlpha(0);
-        pieChart.setCenterText("Super Cool Chart");
+        pieChart.setCenterText("Task Breakdown");
         pieChart.setCenterTextSize(10);
         //pieChart.setDrawEntryLabels(true);
         //pieChart.setEntryLabelTextSize(20);
@@ -99,12 +101,12 @@ public class PieChartActivity extends AppCompatActivity {
 
         //add colors to dataset
         HashMap<String, Integer> categoryDict = new HashMap<String, Integer>();
-        categoryDict.put("Trip", Color.BLUE);
-        categoryDict.put("Study", Color.GRAY);
-        categoryDict.put("Chores", Color.GREEN);
-        categoryDict.put("Family", Color.YELLOW);
-        categoryDict.put("Relaxation", Color.MAGENTA);
-        categoryDict.put("Urgent", Color.RED);
+        categoryDict.put("Trip", Color.parseColor("#00375F"));
+        categoryDict.put("Study", Color.parseColor("#8B003D"));
+        categoryDict.put("Chores", Color.parseColor("#CCCC99"));
+        categoryDict.put("Family", Color.parseColor("#647D29"));
+        categoryDict.put("Relaxation", Color.parseColor("#CC922E"));
+        categoryDict.put("Urgent", Color.parseColor("#F76359"));
 
         ArrayList<Integer> usedColors = new ArrayList<>();
         for(int i = 0; i < yEntrys.size(); i++) {
@@ -127,7 +129,7 @@ public class PieChartActivity extends AppCompatActivity {
         //create pie data object
         PieData pieData = new PieData(pieDataSet);
         pieChart.setData(pieData);
-        pieChart.setEntryLabelColor(Color.GRAY);
+        pieChart.setEntryLabelColor(Color.WHITE);
         pieChart.invalidate();
         // addDataSet();
 
@@ -226,12 +228,12 @@ public class PieChartActivity extends AppCompatActivity {
         wa.setTopTitle(String.format("Stress"));
 
         if (stressPercentage >= 80) {
-            sendPushNotification("Uh Oh! Seems like you had been relaxing too much lately. Hurry and get some work done!");
+            sendPushNotification("Uh Oh! Seems like you had been relaxing too much lately. \nHurry and get some work done!");
 
         }
 
         if (relaxPercentage >= 80) {
-            sendPushNotification("Watch out! You are stressing out lately. Take a deep breath and relax.");
+            sendPushNotification("Watch out! You are stressing out lately. \nTake a deep breath and relax.");
         }
     }
 

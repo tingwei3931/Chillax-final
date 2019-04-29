@@ -3,6 +3,8 @@ package com.example.chillaxown;
 
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,6 +16,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +34,8 @@ import com.google.firebase.storage.FirebaseStorage;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.view.View.VISIBLE;
 
 public class displayfamily extends AppCompatActivity implements PostAdapter.RecycleViewClickListener {
 
@@ -49,6 +55,7 @@ public class displayfamily extends AppCompatActivity implements PostAdapter.Recy
     FirebaseDatabase firebaseDatabase;
     FirebaseStorage mStorage;
     DatabaseReference databaseReference;
+    ProgressBar spinner;
 
 
     @Override
@@ -57,16 +64,18 @@ public class displayfamily extends AppCompatActivity implements PostAdapter.Recy
         setContentView(R.layout.activity_displayfamily);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.rgb(83,36,54)));
         getSupportActionBar().setTitle("Sharing Space");
 
-        posttaskname = (TextView) findViewById(R.id.task_name);
-        postTaskcategory = (TextView) findViewById(R.id.task_date);
-        postTaskTime = (TextView) findViewById(R.id.task_time);
-        postTaskdate = (TextView) findViewById(R.id.task_name);
+        posttaskname = (TextView) findViewById(R.id.row_task_name);
+        postTaskcategory = (TextView) findViewById(R.id.row_task_category);
+        postTaskTime = (TextView) findViewById(R.id.row_task_time);
+        postTaskdate = (TextView) findViewById(R.id.row_task_date);
 
-        userid = (TextView) findViewById(R.id.task_user);
+        //userid = (TextView) findViewById(R.id.row_task_user);
 
         recyclerview = (RecyclerView) findViewById(R.id.rview);
+        spinner = (ProgressBar) findViewById(R.id.progressBar2);
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("reader");
 
@@ -79,29 +88,27 @@ public class displayfamily extends AppCompatActivity implements PostAdapter.Recy
         databaseReference = firebaseDatabase.getReference("reader");
 
         postList = new ArrayList<>();
-        postAdapter = new PostAdapter(getApplicationContext(),postList, this);
+        postAdapter = new PostAdapter(getApplicationContext(), postList, this);
         rc.setAdapter(postAdapter);
+        showSpinner();
     }
     @Override
     protected void onStart()
     {
-
         super.onStart();
+        // Clear the previous data onStart
+        postAdapter.clearAll();
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
                 for (DataSnapshot postsnap: dataSnapshot.getChildren()) {
                     Post post = postsnap.getValue(Post.class);
                     post.setPostKey(postsnap.getKey());
                     postList.add(post) ;
 
                 }
-
+                hideSpinner();
                 postAdapter.notifyDataSetChanged();
-
-
-
             }
 
             @Override
@@ -128,7 +135,20 @@ public class displayfamily extends AppCompatActivity implements PostAdapter.Recy
         Intent intent = new Intent(this, ChatActivity.class);
         startActivity(intent);
     }
+
+
+    private void hideSpinner(){
+        recyclerview.setVisibility(View.VISIBLE);
+        spinner.setVisibility(View.GONE);
+    }
+
+    private void showSpinner() {
+        recyclerview.setVisibility(View.GONE);
+        spinner.setVisibility(View.VISIBLE);
+    }
 }
+
+/**
 class BlogViewHolder extends  RecyclerView.ViewHolder{
     View mView;
     public BlogViewHolder(View itemView)
@@ -164,7 +184,4 @@ class BlogViewHolder extends  RecyclerView.ViewHolder{
 
     }
 
-
-
-
-}
+**/

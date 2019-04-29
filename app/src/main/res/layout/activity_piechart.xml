@@ -6,12 +6,13 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@drawable/peach_gradient"
     tools:context=".PieChartActivity">
 
     <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/idPieChart"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/idPieChart"></com.github.mikephil.charting.charts.PieChart>
+        android:layout_height="match_parent"></com.github.mikephil.charting.charts.PieChart>
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"

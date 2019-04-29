@@ -1,5 +1,7 @@
 package com.example.chillaxown;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -28,6 +30,7 @@ public class ChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.rgb(83,36,54)));
         getSupportActionBar().setTitle("Chillax Lounge ");
 
         FloatingActionButton fab =
@@ -88,12 +91,14 @@ public class ChatActivity extends AppCompatActivity {
                 // Format the date before showing it
                 messageTime.setText(DateFormat.format("dd-MM-yyyy (HH:mm:ss)",
                         model.getMessageTime()));
-            }
 
+                scrollMyListViewToBottom();
+            }
 
         };
 
         listOfMessages.setAdapter(adapter);
+
     }
 
     private void scrollMyListViewToBottom() {

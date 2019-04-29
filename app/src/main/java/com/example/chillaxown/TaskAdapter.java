@@ -3,6 +3,7 @@ package com.example.chillaxown;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -18,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -119,17 +121,40 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     @Override
     public void onBindViewHolder(@NonNull TaskViewHolder taskViewHolder, int i) {
         HashMap<String, Integer> categoryDict = new HashMap<String, Integer>();
+        /**
         categoryDict.put("Trip", Color.BLUE);
         categoryDict.put("Study", Color.GRAY);
         categoryDict.put("Chores", Color.GREEN);
         categoryDict.put("Family", Color.YELLOW);
         categoryDict.put("Relaxation", Color.MAGENTA);
-        categoryDict.put("Urgent", Color.RED);
+        categoryDict.put("Urgent", Color.RED);**/
         taskViewHolder.tvTaskName.setText(tasks.get(i).getTaskName());
         taskViewHolder.tvTaskCategory.setText(tasks.get(i).getTaskCategory());
         taskViewHolder.tvTaskDate.setText(tasks.get(i).getTaskDate());
         taskViewHolder.tvTaskTime.setText(tasks.get(i).getTaskTime());
-        taskViewHolder.cv.setCardBackgroundColor(categoryDict.get(tasks.get(i).getTaskCategory()));
+        //taskViewHolder.cv.setCardBackgroundColor(categoryDict.get(tasks.get(i).getTaskCategory()));
+
+        //taskViewHolder.cv.setCardBackgroundColor(categoryDict.get(tasks.get(i).getTaskCategory()));
+        HashMap<String, Bitmap> image = new HashMap<String, Bitmap>();
+
+        if(tasks.get(i).getTaskCategory().equals("Trip")) {
+            taskViewHolder.img.setImageResource(R.drawable.navy);
+        }
+        else if(tasks.get(i).getTaskCategory().equals("Study")){
+            taskViewHolder.img.setImageResource(R.drawable.burgundary);
+        }
+        else if(tasks.get(i).getTaskCategory().equals("Chores")){
+            taskViewHolder.img.setImageResource(R.drawable.light_green);
+        }
+        else if(tasks.get(i).getTaskCategory().equals("Family")){
+            taskViewHolder.img.setImageResource(R.drawable.green);
+        }
+        else if(tasks.get(i).getTaskCategory().equals("Relaxation")){
+            taskViewHolder.img.setImageResource(R.drawable.bar_light);
+        }
+        else if(tasks.get(i).getTaskCategory().equals("Urgent")){
+            taskViewHolder.img.setImageResource((R.drawable.coral_pink));
+        }
     }
 
     @Override
@@ -178,6 +203,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         TextView tvTaskDate;
         TextView tvTaskTime;
         TextView tvTaskCategory;
+        ImageView img;
 
         TaskViewHolder(View itemView) {
             super(itemView);
@@ -186,6 +212,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             tvTaskDate = itemView.findViewById(R.id.row_task_date);
             tvTaskTime = itemView.findViewById(R.id.row_task_time);
             tvTaskCategory = itemView.findViewById(R.id.row_task_category);
+            img= (ImageView) itemView.findViewById(R.id.image);
 
             itemView.setLongClickable(true);
             itemView.setOnLongClickListener(this);

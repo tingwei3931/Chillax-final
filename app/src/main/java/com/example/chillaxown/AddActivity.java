@@ -7,6 +7,8 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -64,6 +66,7 @@ public class AddActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_add);
         //getActionBar().setTitle("Add a new task");
         getSupportActionBar().setTitle("Add a new task");  // provide compatibility to all the versions
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.rgb(83,36,54)));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //set references to widgets
         mClearBtn             = (Button)   findViewById(R.id.clearBtn);

@@ -2,6 +2,7 @@ package com.example.chillaxown;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
@@ -10,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,16 +43,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View row = LayoutInflater.from(mContext).inflate(R.layout.row_task_item,parent, false);
-
         return new MyViewHolder(row);
-
     }
 
-
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder holder, int i) {
 
         //holder.tvTitle.setText(mData.get(position).getTitle());
+        /**
         HashMap<String, Integer> categoryDict = new HashMap<String, Integer>();
         categoryDict.put("Trip", Color.BLUE);
         categoryDict.put("Study", Color.GRAY);
@@ -58,11 +58,32 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
         categoryDict.put("Family", Color.YELLOW);
         categoryDict.put("Relaxation", Color.MAGENTA);
         categoryDict.put("Urgent", Color.RED);
-        holder.tvTaskName.setText(mData.get(position).getTaskName());
-        holder.tvTaskCategory.setText(mData.get(position).getTaskCategory());
-        holder.tvTaskDate.setText(mData.get(position).getTaskDate());
-        holder.tvTaskTime.setText(mData.get(position).gettime());
-        holder.cv.setCardBackgroundColor(categoryDict.get(mData.get(position).getTaskCategory()));
+         **/
+        HashMap<String, Bitmap> image = new HashMap<String, Bitmap>();
+
+        if(mData.get(i).getTaskCategory().equals("Trip")) {
+            holder.img.setImageResource(R.drawable.navy);
+        }
+        else if(mData.get(i).getTaskCategory().equals("Study")){
+            holder.img.setImageResource(R.drawable.burgundary);
+        }
+        else if(mData.get(i).getTaskCategory().equals("Chores")){
+            holder.img.setImageResource(R.drawable.light_green);
+        }
+        else if(mData.get(i).getTaskCategory().equals("Family")){
+            holder.img.setImageResource(R.drawable.green);
+        }
+        else if(mData.get(i).getTaskCategory().equals("Relaxation")){
+            holder.img.setImageResource(R.drawable.bar_light);
+        }
+        else if(mData.get(i).getTaskCategory().equals("Urgent")){
+            holder.img.setImageResource((R.drawable.coral_pink));
+        }
+        holder.tvTaskName.setText(mData.get(i).getTaskName());
+        holder.tvTaskCategory.setText(mData.get(i).getTaskCategory());
+        holder.tvTaskDate.setText(mData.get(i).getTaskDate());
+        holder.tvTaskTime.setText(mData.get(i).gettime());
+        //holder.cv.setCardBackgroundColor(categoryDict.get(mData.get(position).getTaskCategory()));
 
 
     }
@@ -83,7 +104,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
     }
 
 
+    public void clearAll() {
+        if(mData != null)
+            this.mData.clear();
 
+    }
 
 
 
@@ -95,15 +120,17 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
         TextView tvTaskDate;
         TextView tvTaskTime;
         TextView tvTaskCategory;
+        ImageView img;
 
         MyViewHolder(View itemView) {
             super(itemView);
 
             cv = (CardView) itemView.findViewById(R.id.cv);
-            tvTaskName = itemView.findViewById(R.id.task_name);
-            tvTaskDate = itemView.findViewById(R.id.task_date);
-            tvTaskTime = itemView.findViewById(R.id.task_time);
-            tvTaskCategory = itemView.findViewById(R.id.task_category);
+            tvTaskName = itemView.findViewById(R.id.row_task_name);
+            tvTaskDate = itemView.findViewById(R.id.row_task_date);
+            tvTaskTime = itemView.findViewById(R.id.row_task_time);
+            tvTaskCategory = itemView.findViewById(R.id.row_task_category);
+            img = itemView.findViewById(R.id.image);
             itemView.setOnClickListener(this);
 
 
@@ -137,14 +164,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
         }
     }
 
-        /*@Override
-        public boolean onLongClick(View view) {
-        return false;
-        }
-
-
-    }
-*/
     public interface OnItemClickListener {
         void onItemLongClick(int position);
 

@@ -50,7 +50,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Drop older table if existed, all data will be gone!!!
         db.execSQL("DROP TABLE IF EXISTS " + TaskDetails.TABLE);
-        db.execSQL("DROP TABLE IF EXISTS " + TaskDetails.TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + Duration.TABLE);
         // Create tables again
         onCreate(db);
     } //end of onUpgrade

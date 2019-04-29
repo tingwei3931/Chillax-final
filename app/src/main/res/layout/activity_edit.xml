@@ -43,7 +43,7 @@
                     android:layout_marginRight="14dp"
                     android:layout_weight="1"
                     android:contentDescription="TODO"
-                    app:srcCompat="@drawable/ic_menu_gallery" />
+                    app:srcCompat="@drawable/realtime" />
 
                 <EditText
                     android:id="@+id/nameEditText"
@@ -74,7 +74,7 @@
                     android:layout_marginEnd="14dp"
                     android:layout_marginRight="14dp"
                     android:layout_weight="1"
-                    app:srcCompat="@drawable/ic_menu_gallery" />
+                    app:srcCompat="@drawable/categories" />
 
                 <EditText
                     android:id="@+id/categoryEditText"
@@ -110,7 +110,7 @@
                     android:layout_marginEnd="14dp"
                     android:layout_marginRight="14dp"
                     android:layout_weight="1"
-                    app:srcCompat="@drawable/ic_menu_camera" />
+                    app:srcCompat="@drawable/schedule" />
 
                 <EditText
                     android:id="@+id/dateEditText"
@@ -148,7 +148,7 @@
                     android:layout_marginEnd="14dp"
                     android:layout_marginRight="14dp"
                     android:layout_weight="1"
-                    app:srcCompat="@drawable/ic_menu_camera" />
+                    app:srcCompat="@drawable/sand_timer" />
 
                 <EditText
                     android:id="@+id/timeEditText"
