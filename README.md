@@ -8,7 +8,13 @@ Clone the project using `git clone`
 ```
 git clone https://github.com/tingwei3931/Chillax-final.git
 ```
+OR 
+Download the apk file from Google Drive and install it
+https://drive.google.com/file/d/154t9xqUwXF9UBnFqZJpJSjHw_MvIERu7/view?usp=sharing
 
+Test account to log into the system:
+Username: tingwei3931@gmail.com
+Password: 123456
 
 ### Prerequisites
 
