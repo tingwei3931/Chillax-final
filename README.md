@@ -1,4 +1,4 @@
-# Chillax-final
+# Chillax
 
 Chillax is an Android app designed to reduce stress by visualising the rush and overload by bringing order into chaos of actvities. This Android app is build during CSE3023 Software Engineering Class as part of the deliverables for SCRUM Methodology. 
 
